@@ -1,0 +1,46 @@
+﻿@page "/ImageDisplay"
+@using BlazorApp2.Models;
+@using BlazorApp2.Services;
+@inject NavigationManager UriHelper
+@inject IJSRuntime JSRunTime
+
+
+<h3>Images</h3>
+
+
+
+<div class="row">
+    <div class="col-md-10">
+        @*Place for search and sort*@
+    </div>
+    <div class="col-md-2">
+        <a href="/createProduct">Create Product</a>
+    </div>
+</div>
+
+<TableDisplayComponent images="images"></TableDisplayComponent>
+
+<div class="row">
+    <div class="col">
+        @*Place for pagination*@
+    </div>
+</div>
+
+
+
+@code {
+
+    public List<Image> images{ get; set; } = new List<Image>();
+    [Inject]
+    public IImageHttpRepo ImageRepo { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        images = await ImageRepo.GetImages();
+        //just for testing
+        foreach (var image in images)
+        {
+            image.Picture = "data:image/png;base64," + image.Picture;
+        }
+    }
+}

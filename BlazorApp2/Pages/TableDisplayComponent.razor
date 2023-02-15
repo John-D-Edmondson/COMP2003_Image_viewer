@@ -1,0 +1,105 @@
+﻿
+@using BlazorApp2.Models;
+@using BlazorApp2.Services;
+@inject NavigationManager UriHelper
+@inject IJSRuntime JsRuntime
+
+
+<div class="row">
+    <div class="col">
+        @if (images.Count > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Event</th>
+                        <th scope="col">Evaluator ID</th>
+                        <th scope="col">Breadth</th>
+                        <th scope="col">Depth</th>
+                        <th scope="col">Extent</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var image in images)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@image.Picture" alt="product image" style="width:100px;" />
+                            </td>
+                            <td class="align-middle">
+                                @image.ChildAge
+                            </td>
+                            <td class="align-middle">
+                                @image.ImgDate.ToShortDateString()
+                            </td>
+                            <td class="align-middle">
+                                @image.ImgEvent
+                            </td>
+                            <td class="align-middle">
+                                @image.EvaluatorId
+                            </td>
+                            <td class="align-middle">
+                                @image.Breadth
+                            </td>
+                            <td class="align-middle">
+                                @image.Depth
+                            </td>
+                            <td class="align-middle">
+                                @image.Extent
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-info" @onclick="() => navToUpdate(image.Id)">Update</button>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-danger" @onclick="() => DeleteButton(image.Id, image)">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <span>
+                Loading products...
+            </span>
+        }
+
+        @*Place for products*@
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public List<Image> images { get; set; }
+    [Inject]
+    public IImageHttpRepo ImageRepo { get; set; }
+
+    private async void DeleteButton(int id, Image deletingImage)
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Deletion cannot be reversed, are you sure?"); // Confirm
+
+        if (confirmed)
+        {
+            HttpResponseMessage response = await ImageRepo.DeleteImage(id);
+            if (response.IsSuccessStatusCode)
+            {
+                await JsRuntime.InvokeVoidAsync("alert", "Entry has been deleted");
+                images.Remove(deletingImage);
+                StateHasChanged();
+            }
+            
+        }
+    }
+
+    private void navToUpdate(int id)
+    {
+        UriHelper.NavigateTo($"ImageUpdate/{id}");
+    }
+}

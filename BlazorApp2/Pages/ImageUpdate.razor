@@ -1,0 +1,149 @@
+﻿@page "/ImageUpdate/{id}"
+@using BlazorApp2.Models;
+@using BlazorApp2.Services;
+@inject NavigationManager UriHelper
+@inject IJSRuntime JsRuntime
+
+<h3>ImageUpdate</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        <img src="@image.Picture" height="400" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <textarea cols="50"
+          rows="2"
+          placeholder="@image.Comments"
+          style="resize:both;"
+          oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';"
+        @bind="@newComments">
+</textarea>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Child Age</th>
+                    <th scope="col">Evaluator ID</th>
+                    <th scope="col">Breadth</th>
+                    <th scope="col">Depth</th>
+                    <th scope="col">Extent</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td class="align-middle">
+                        @image.ChildAge
+                    </td>
+                    <td class="align-middle">
+                        <input type="text" @bind="@newEvaluatorId">                   
+                    </td>
+                    <td class="align-middle">
+                        <select @bind="@selectedBreadth">
+                            @for (int i = 0; i < 6; i++)
+                            {
+                                <option value=@i>@i</option>
+                            }
+                        </select>
+                    </td>
+                    <td class="align-middle">                        
+                        <select @bind="@selectedDepth">
+                            @for (int i = 0; i < 6; i++)
+                            {
+                                <option value=@i>@i</option>
+                            }
+                        </select>
+                    </td>
+                    <td class="align-middle">
+                        <select @bind="@selectedExtent">
+                        @for (int i = 0; i < 100; i++)
+                        {
+                           <option value=@i>@i</option>
+                        }
+                        </select>
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-info" @onclick="updateImage">Update</button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+    
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+
+    public Image image { get; set; } = new Image();
+
+    int selectedDepth;
+    int selectedBreadth;
+    int selectedExtent;
+    string newEvaluatorId;
+    string newComments;
+
+
+    [Inject]
+    public IImageHttpRepo ImageRepo { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        image = await ImageRepo.GetImageById(Int16.Parse(Id));      
+        image.Picture = "data:image/png;base64," + image.Picture; 
+        selectedBreadth = image.Breadth;
+        selectedDepth = image.Depth;
+        selectedExtent = image.Extent;
+        newEvaluatorId = image.EvaluatorId.ToString();
+        newComments = image.Comments;
+    }
+
+
+
+
+    private async void updateImage()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+
+        if (confirmed)
+        {
+            image.Picture = image.Picture.Substring(22);
+            image.Breadth = selectedBreadth;
+            image.Depth = selectedDepth;
+            image.Extent = selectedExtent;
+            image.EvaluatorId = Int16.Parse(newEvaluatorId);
+            image.Comments = newComments;
+            image.ImgGraded = true;
+
+            HttpResponseMessage response = await ImageRepo.EditImage(image);
+            if (response.IsSuccessStatusCode)
+            {
+                bool travelDirection = await JsRuntime.InvokeAsync<bool>("confirm", "Image has been Updated, press OK to view Ungraded images, press CANCEL to view All Images");
+                if (travelDirection) UriHelper.NavigateTo($"UngradedImages/");
+                if (!travelDirection) UriHelper.NavigateTo($"ImageDisplay/");
+            }
+            image.Picture = "data:image/png;base64," + image.Picture;
+            StateHasChanged();
+        }
+    }
+
+
+
+}
+
+
+
+
