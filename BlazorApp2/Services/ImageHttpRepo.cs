@@ -19,7 +19,7 @@ namespace BlazorApp2.Services
 
         public async Task<HttpResponseMessage> DeleteImage(int id)
         {
-            HttpResponseMessage response = await _client.DeleteAsync("Imgs/" + id);
+            HttpResponseMessage response = await _client.DeleteAsync("Images/" + id);
             return response;
         }
 
@@ -27,14 +27,14 @@ namespace BlazorApp2.Services
         {
             var imageToSend = JsonSerializer.Serialize(image);
             var requestContent = new StringContent(imageToSend, Encoding.UTF8, "application/json");
-            var response = await _client.PutAsync("Imgs/" + image.Id, requestContent);
+            var response = await _client.PutAsync("Images/" + image.Id, requestContent);
 
             return response;
         }
 
         public async Task<List<Image>> GetImages()
         {
-            var response = await _client.GetAsync("Imgs");
+            var response = await _client.GetAsync("Images");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -46,7 +46,7 @@ namespace BlazorApp2.Services
 
         public async Task<List<Image>> GetUngradedImages()
         {
-            var response = await _client.GetAsync("Imgs/ungraded");
+            var response = await _client.GetAsync("Images/ungraded");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -61,7 +61,7 @@ namespace BlazorApp2.Services
 
         public async Task<Image> GetImageById(int id)
         {
-            var response = await _client.GetAsync("Imgs/" + id);
+            var response = await _client.GetAsync("Images/" + id);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {

@@ -17,9 +17,6 @@
                         <th scope="col">Date</th>
                         <th scope="col">Event</th>
                         <th scope="col">Evaluator ID</th>
-                        <th scope="col">Breadth</th>
-                        <th scope="col">Depth</th>
-                        <th scope="col">Extent</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
@@ -44,15 +41,6 @@
                                 @image.EvaluatorId
                             </td>
                             <td class="align-middle">
-                                @image.Breadth
-                            </td>
-                            <td class="align-middle">
-                                @image.Depth
-                            </td>
-                            <td class="align-middle">
-                                @image.Extent
-                            </td>
-                            <td class="align-middle">
                                 <button type="button" class="btn btn-info" @onclick="() => navToUpdate(image.Id)">Update</button>
                             </td>
                             <td class="align-middle">
@@ -66,11 +54,11 @@
         else
         {
             <span>
-                Loading products...
+                Loading .
             </span>
         }
 
-        @*Place for products*@
+        
     </div>
 </div>
 

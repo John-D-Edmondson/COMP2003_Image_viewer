@@ -7,8 +7,178 @@
 <h3>ImageUpdate</h3>
 
 <div class="row">
-    <div class="col-md-12">
-        <img src="@image.Picture" height="400" />
+    <div class="col-md-6">
+        <img src="@image.Picture" class="img-fluid" />
+    </div>
+    <div class="col-md-6">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td align="left">Theme</td>
+                    <th align="left">Breadth</th>
+                    <th align="left">Extent</th>
+                    <th align="left">Depth</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>          
+                           <input @bind=image.Breadth1 type="checkbox" />
+                        </td>
+                        <td>
+                            <select @bind=image.Extent1>
+                                @for (int j = 0; j < 100; j++)
+                                {
+                                        <option value=@j>@j</option>                          
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select @bind=image.Depth1>
+                                @for (int j = 0; j < 6; j++)
+                                {
+                                    <option value=@j>@j</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>2</td>
+                        <td>          
+                           <input @bind=image.Breadth2 type="checkbox" />
+                        </td>
+                        <td>
+                            <select @bind=image.Extent2>
+                                @for (int j = 0; j < 100; j++)
+                                {
+                                        <option value=@j>@j</option>                          
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select @bind=image.Depth2>
+                                @for (int j = 0; j < 6; j++)
+                                {
+                                    <option value=@j>@j</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                        <input @bind=image.Breadth3 type="checkbox" />
+                    </td>
+                    <td>
+                        <select @bind=image.Extent3>
+                            @for (int j = 0; j < 100; j++)
+                            {
+                                <option value=@j>@j</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <select @bind=image.Depth3>
+                            @for (int j = 0; j < 6; j++)
+                            {
+                                <option value=@j>@j</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>
+                        <input @bind=image.Breadth4 type="checkbox" />
+                    </td>
+                    <td>
+                        <select @bind=image.Extent4>
+                            @for (int j = 0; j < 100; j++)
+                            {
+                                <option value=@j>@j</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <select @bind=image.Depth4>
+                            @for (int j = 0; j < 6; j++)
+                            {
+                                <option value=@j>@j</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                        <td>5</td>
+                        <td>          
+                           <input @bind=image.Breadth5 type="checkbox" />
+                        </td>
+                        <td>
+                            <select @bind=image.Extent5>
+                                @for (int j = 0; j < 100; j++)
+                                {
+                                        <option value=@j>@j</option>                          
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select @bind=image.Depth5>
+                                @for (int j = 0; j < 6; j++)
+                                {
+                                    <option value=@j>@j</option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                <tr>
+                    <td>6</td>
+                    <td>
+                        <input @bind=image.Breadth6 type="checkbox" />
+                    </td>
+                    <td>
+                        <select @bind=image.Extent6>
+                            @for (int j = 0; j < 100; j++)
+                            {
+                                <option value=@j>@j</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <select @bind=image.Depth6>
+                            @for (int j = 0; j < 6; j++)
+                            {
+                                <option value=@j>@j</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>
+                        <input @bind=image.Breadth7 type="checkbox" />
+                    </td>
+                    <td>
+                        <select @bind=image.Extent7>
+                            @for (int j = 0; j < 100; j++)
+                            {
+                                <option value=@j>@j</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <select @bind=image.Depth7>
+                            @for (int j = 0; j < 6; j++)
+                            {
+                                <option value=@j>@j</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                    
+            </tbody>
+        </table>
+
     </div>
 </div>
 
@@ -19,7 +189,7 @@
           placeholder="@image.Comments"
           style="resize:both;"
           oninput="this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';"
-        @bind="@newComments">
+        @bind="@image.Comments">
 </textarea>
 
     </div>
@@ -33,43 +203,19 @@
                 <tr>
                     <th scope="col">Child Age</th>
                     <th scope="col">Evaluator ID</th>
-                    <th scope="col">Breadth</th>
-                    <th scope="col">Depth</th>
-                    <th scope="col">Extent</th>
+                    <th scope="col">Event</th>
                 </tr>
             </thead>
             <tbody>
-
                 <tr>
                     <td class="align-middle">
                         @image.ChildAge
                     </td>
                     <td class="align-middle">
-                        <input type="text" @bind="@newEvaluatorId">                   
+                        <input type="text" @bind="@image.EvaluatorId">                   
                     </td>
                     <td class="align-middle">
-                        <select @bind="@selectedBreadth">
-                            @for (int i = 0; i < 6; i++)
-                            {
-                                <option value=@i>@i</option>
-                            }
-                        </select>
-                    </td>
-                    <td class="align-middle">                        
-                        <select @bind="@selectedDepth">
-                            @for (int i = 0; i < 6; i++)
-                            {
-                                <option value=@i>@i</option>
-                            }
-                        </select>
-                    </td>
-                    <td class="align-middle">
-                        <select @bind="@selectedExtent">
-                        @for (int i = 0; i < 100; i++)
-                        {
-                           <option value=@i>@i</option>
-                        }
-                        </select>
+                        @image.ImgEvent
                     </td>
                     <td class="align-middle">
                         <button type="button" class="btn btn-info" @onclick="updateImage">Update</button>
@@ -87,15 +233,7 @@
     [Parameter]
     public string Id { get; set; }
 
-
     public Image image { get; set; } = new Image();
-
-    int selectedDepth;
-    int selectedBreadth;
-    int selectedExtent;
-    string newEvaluatorId;
-    string newComments;
-
 
     [Inject]
     public IImageHttpRepo ImageRepo { get; set; }
@@ -103,16 +241,8 @@
     protected async override Task OnInitializedAsync()
     {
         image = await ImageRepo.GetImageById(Int16.Parse(Id));      
-        image.Picture = "data:image/png;base64," + image.Picture; 
-        selectedBreadth = image.Breadth;
-        selectedDepth = image.Depth;
-        selectedExtent = image.Extent;
-        newEvaluatorId = image.EvaluatorId.ToString();
-        newComments = image.Comments;
+        image.Picture = "data:image/png;base64," + image.Picture;
     }
-
-
-
 
     private async void updateImage()
     {
@@ -121,11 +251,6 @@
         if (confirmed)
         {
             image.Picture = image.Picture.Substring(22);
-            image.Breadth = selectedBreadth;
-            image.Depth = selectedDepth;
-            image.Extent = selectedExtent;
-            image.EvaluatorId = Int16.Parse(newEvaluatorId);
-            image.Comments = newComments;
             image.ImgGraded = true;
 
             HttpResponseMessage response = await ImageRepo.EditImage(image);
