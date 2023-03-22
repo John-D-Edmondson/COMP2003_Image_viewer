@@ -1,10 +1,12 @@
 ﻿@page "/ImageUpdate/{id}"
 @using BlazorApp2.Models;
 @using BlazorApp2.Services;
-@inject NavigationManager UriHelper
+@inject NavigationManager UriHelper;
 @inject IJSRuntime JsRuntime
 
 <h3>ImageUpdate</h3>
+
+
 
 <div class="row">
     <div class="col-md-6">
@@ -226,6 +228,7 @@
         </table>
     </div>
 </div>
+
     
 
 
@@ -234,6 +237,7 @@
     public string Id { get; set; }
 
     public Image image { get; set; } = new Image();
+
 
     [Inject]
     public IImageHttpRepo ImageRepo { get; set; }
@@ -256,9 +260,12 @@
             HttpResponseMessage response = await ImageRepo.EditImage(image);
             if (response.IsSuccessStatusCode)
             {
-                bool travelDirection = await JsRuntime.InvokeAsync<bool>("confirm", "Image has been Updated, press OK to view Ungraded images, press CANCEL to view All Images");
-                if (travelDirection) UriHelper.NavigateTo($"UngradedImages/");
-                if (!travelDirection) UriHelper.NavigateTo($"ImageDisplay/");
+                await JsRuntime.InvokeVoidAsync("alert", "Image Updated");
+
+                //bool travelDirection = await JsRuntime.InvokeAsync<bool>("confirm", "Image has been Updated, press OK to view Ungraded images, press CANCEL to view All Images");
+                //if (travelDirection) UriHelper.NavigateTo("/COMP2003/COMP2003_Y_1/UngradedImages/");
+                
+                //if (!travelDirection) UriHelper.NavigateTo("/COMP2003/COMP2003_Y_1/ImageDisplay/");
             }
             image.Picture = "data:image/png;base64," + image.Picture;
             StateHasChanged();
